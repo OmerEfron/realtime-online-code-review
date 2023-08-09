@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, session, redirect
 from modules.code_block import CodeBlock
 lobby_blueprint = Blueprint("lobby", __name__)
 code_block_blueprint = Blueprint("code_block", __name__)
@@ -25,13 +25,31 @@ console.log('Sum:', sum);
 
 dummy_data = {async_example.get_id(): async_example, array_manipulation.get_id():array_manipulation}
 
+user_roles = {}
+
+mentor_assigned = False
 
 @lobby_blueprint.route("/lobby")
 def lobby_route():
+    validate_mentor()
     return render_template("lobby.html", code_blocks=dummy_data)
 
 
 @code_block_blueprint.route("/code-block/<id>")
 def code_block_route(id):
+    validate_mentor()
+    user_role = session.get("role")
     requested_code_block = dummy_data[int(id)]
-    return render_template("code-block.html", code_block=requested_code_block)
+    return render_template("code-block.html", code_block=requested_code_block, user_role=user_role)
+
+def validate_mentor():
+    global mentor_assigned
+    user_role = session.get("role")
+    if user_role is None:
+        if mentor_assigned:
+            session["role"] = "student"
+        else:
+            session["role"] = "mentor"
+            mentor_assigned = True
+    elif user_role == "mentor" and not mentor_assigned:
+        mentor_assigned = True

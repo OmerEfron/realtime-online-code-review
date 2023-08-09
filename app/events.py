@@ -1,12 +1,11 @@
-from flask import request
 from flask_socketio import SocketIO, emit
-from .routes import dummy_data
+from .routes import dummy_data, user_roles
+
 socketio = SocketIO()
 
 @socketio.on("connect")
 def handle_connect():
-    print("connected")
-
+    print("connected!")
 
 @socketio.on("edit_code")
 def handle_edit_code(id, new_code):

@@ -12,27 +12,38 @@
 <h2>{{ code_block.get_title() }}</h2>
 <textarea id="code_text_area" rows="10" cols="50">{{ code_block.get_code() }}</textarea>
 <script>
+
+    const isMentor = "{{ user_role }}" === "mentor";
+    if(isMentor){
+        console.log("I am mentor");
+    }else{
+        console.log("I am student");
+    }
     const codeBlockId = "{{ code_block.get_id() }}";
     const codeTextArea = document.getElementById("code_text_area");
     let codeMirror = CodeMirror.fromTextArea(
         codeTextArea, {
             mode: "javascript",
-            lineNumbers: true
+            lineNumbers: true,
+            readOnly: isMentor,
+            theme:'blackboard',
+            autoCloseBrackets:true,
+            autoCloseTags:true
         }
     );
 
     let programmaticChange = false; // Flag to track programmatic changes
 
     socket.on("code_change", (data) => {
-        if (data.codeBlockId === codeBlockId) {
-            const cursorPosition = codeMirror.getCursor();
-            programmaticChange = true; // Set flag before changing content
-            codeMirror.setValue(data.newCode);
-            codeMirror.focus();
-            codeMirror.setCursor(cursorPosition);
-            programmaticChange = false; // Reset flag after the change
-        }
-    });
+    if (data.codeBlockId === codeBlockId) {
+        const cursorPosition = codeMirror.getCursor();
+        programmaticChange = true; // Set flag before changing content
+        codeMirror.setValue(data.newCode);
+        codeMirror.setCursor(cursorPosition); // Set cursor to end
+        codeMirror.focus();
+        programmaticChange = false; // Reset flag after the change
+    }
+});
 
     codeMirror.on("change", (instance) => {
         if (!programmaticChange) {

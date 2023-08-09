@@ -1,0 +1,64 @@
+/* Custom style for CodeMirror */
+.CodeMirror {
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    color: #333;
+    font-size: 14px;
+    padding: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+
+/* Line numbers style */
+.CodeMirror-linenumber {
+    color: #999;
+}
+
+/* Scrollbar style */
+.CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {
+    background-color: #f8f8f8;
+}
+
+/* Cursor style */
+.CodeMirror-cursor {
+    border-left: 1px solid #333;
+}
+
+/* Active line style */
+.CodeMirror-activeline-background {
+    background-color: #f0f0f0;
+}
+
+/* Selection style */
+.CodeMirror-selected {
+    background-color: #d0e3f0;
+}
+
+/* Autocomplete dropdown */
+.CodeMirror-hints {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.CodeMirror-hint {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.CodeMirror-hint-active {
+    background-color: #d0e3f0;
+}
+
+/* Theme specific overrides */
+.CodeMirror.cm-s-blackboard {
+    background-color: #1b1b1b;
+    color: #f8f8f8;
+}
+
+/* Center the h2 element */
+h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
