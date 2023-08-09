@@ -1,0 +1,31 @@
+# Ignore IDE specific files and folders
+.idea/
+*.iml
+
+# Ignore Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore local development environment
+venv/
+Lib/
+Scripts/
+
+# Ignore package installation files
+*.egg-info/
+dist/
+build/
+*.egg
+*.whl
+
+# Ignore compiled JavaScript files
+node_modules/
+*.log
+
+# Ignore temporary files
+*.tmp
+
+# Ignore operating system files
+.DS_Store
+Thumbs.db
