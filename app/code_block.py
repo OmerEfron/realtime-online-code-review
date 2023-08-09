@@ -1,6 +1,6 @@
-from flask_wtf import FlaskForm
-from flask_codemirror.fields import CodeMirrorField
+from flask_sqlalchemy import SQLAlchemy
 
+db = SQLAlchemy()
 class CodeBlock:
     count = 0
     def __init__(self, title, code):
@@ -22,4 +22,7 @@ class CodeBlock:
     def set_code(self, new_code):
         self._code = new_code
 
-
+class DBCodeBlock(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, unique=True,nullable=False)
+    code = db.Column(db.String)
