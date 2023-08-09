@@ -28,5 +28,3 @@ def init_db():
             db.session.add(db_code_block)
         db.session.commit()
 
-def print_db():
-    print(db.get_or_404(DBCodeBlock, dummy_data[3].get_id()))
