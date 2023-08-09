@@ -33,6 +33,4 @@ Thumbs.db
 # Ignore all CodeMirror files and folders
 app/static/codemirror/**
 
-
-
 /include/
