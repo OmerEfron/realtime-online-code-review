@@ -1,7 +1,8 @@
-from app import build_app
-from app.routes import lobby_blueprint, code_block_blueprint
+from app import build_app, create_db, print_db, drop_db
 app = build_app()
 
 if __name__ == '__main__':
-    app.run()
-
+    with app.app_context():
+        create_db()
+        print_db()
+    app.run(debug=True)

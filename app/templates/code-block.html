@@ -9,8 +9,8 @@
 {% endblock %}
 
 {% block content %}
-<h2>{{ code_block.get_title() }}</h2>
-<textarea id="code_text_area" rows="10" cols="50">{{ code_block.get_code() }}</textarea>
+<h2>{{ code_block.title }}</h2>
+<textarea id="code_text_area" rows="10" cols="50">{{ code_block.code }}</textarea>
 <script>
 
     const isMentor = "{{ user_role }}" === "mentor";
@@ -19,7 +19,7 @@
     }else{
         console.log("I am student");
     }
-    const codeBlockId = "{{ code_block.get_id() }}";
+    const codeBlockId = "{{ code_block.id }}";
     const codeTextArea = document.getElementById("code_text_area");
     let codeMirror = CodeMirror.fromTextArea(
         codeTextArea, {
