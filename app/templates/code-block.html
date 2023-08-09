@@ -1,28 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>code block!</title>
-</head>
-<body>
-    <h2>{{ code_block.get_title() }}</h2>
-    <textarea id="code_text_area" rows="10" cols="50">{{ code_block.get_code() }}</textarea>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
-    <script>
-        const socket = io();
-        const codeBlockId = "{{ code_block.get_id() }}";
+{% extends "base.html" %}
 
-        socket.on("code_change", (data) => {
-        if (data.codeBlockId === codeBlockId) {
-            document.getElementById("code_text_area").value = data.newCode;
+{% block title %}Code Block{% endblock %}
+
+{% block socket_script %}
+<script>
+    const socket = io();
+</script>
+{% endblock %}
+
+{% block content %}
+<h2>{{ code_block.get_title() }}</h2>
+<textarea id="code_text_area" rows="10" cols="50">{{ code_block.get_code() }}</textarea>
+<script>
+    const codeBlockId = "{{ code_block.get_id() }}";
+    const codeTextArea = document.getElementById("code_text_area");
+    let codeMirror = CodeMirror.fromTextArea(
+        codeTextArea, {
+            mode: "javascript",
+            lineNumbers: true
         }
-        });
+    );
 
-        document.getElementById("code_text_area").addEventListener("input", () => {
-            let newCode = document.getElementById("code_text_area").value;
+    let programmaticChange = false; // Flag to track programmatic changes
+
+    socket.on("code_change", (data) => {
+        if (data.codeBlockId === codeBlockId) {
+            const cursorPosition = codeMirror.getCursor();
+            programmaticChange = true; // Set flag before changing content
+            codeMirror.setValue(data.newCode);
+            codeMirror.focus();
+            codeMirror.setCursor(cursorPosition);
+            programmaticChange = false; // Reset flag after the change
+        }
+    });
+
+    codeMirror.on("change", (instance) => {
+        if (!programmaticChange) {
+            let newCode = instance.getValue();
             socket.emit("edit_code", codeBlockId, newCode);
-            console.log("emitted");
-        });
-    </script>
-</body>
-</html>
+        }
+    });
+</script>
+{% endblock %}

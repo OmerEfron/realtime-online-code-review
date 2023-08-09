@@ -13,4 +13,3 @@ def handle_edit_code(id, new_code):
     requested_code_block = dummy_data[int(id)]
     emit("code_change", {"codeBlockId": id, "newCode": new_code}, broadcast=True)
     requested_code_block.set_code(new_code)
-    print(f"code changed to: {new_code}")
