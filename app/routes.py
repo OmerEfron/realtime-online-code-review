@@ -10,8 +10,9 @@ mentor_assigned = False
 @lobby_blueprint.route("/lobby")
 def lobby_route():
     validate_mentor()
+    user_role = session.get("role")
     data = DBCodeBlock.query.all()
-    return render_template("lobby.html", code_blocks=data)
+    return render_template("lobby.html", code_blocks=data, user_role=user_role)
 
 
 @code_block_blueprint.route("/code-block/<id>")

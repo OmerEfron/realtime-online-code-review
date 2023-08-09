@@ -11,5 +11,6 @@ def handle_connect():
 def handle_edit_code(id, new_code):
     requested_code_block = app.db.session.get(app.code_block.DBCodeBlock, id)
     requested_code_block.code = new_code
+    fixed = requested_code_block.check_code()
     app.db.session.commit()
-    emit("code_change", {"codeBlockId": id, "newCode": new_code}, broadcast=True)
+    emit("code_change", {"codeBlockId": id, "newCode": new_code, "isFixed": fixed}, broadcast=True)

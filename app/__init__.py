@@ -24,7 +24,7 @@ def init_db():
     if DBCodeBlock.query.count() == 0:
         for id, cb in dummy_data.items():
             print(f"creating code block {id}")
-            db_code_block = DBCodeBlock(id=id, title=cb.get_title(), code=cb.get_code())
+            db_code_block = DBCodeBlock(id=id, title=cb.get_title(), code=cb.get_code(), solution=cb.get_solution())
             db.session.add(db_code_block)
         db.session.commit()
 
