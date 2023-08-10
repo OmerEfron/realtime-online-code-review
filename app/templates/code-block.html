@@ -15,6 +15,7 @@
 <script>
     const codeBlockId = "{{ code_block.id }}";
     const codeTextArea = document.getElementById("code_text_area");
+    console.log(`about to set codeMirror! readOnly = ${isMentor}`)
     let codeMirror = CodeMirror.fromTextArea(
         codeTextArea, {
             mode: "javascript",
@@ -35,8 +36,9 @@
 
         // Set the value and read-only mode based on data.isFixed
         codeMirror.setValue(data.newCode);
-        codeMirror.setOption("readOnly", data.isFixed);
-
+        if(!isMentor){
+            codeMirror.setOption("readOnly", data.isFixed);
+        }
         if (data.isFixed) {
             showSmiley();
         } else {
@@ -65,9 +67,11 @@
         const smileyImage = document.createElement("img");
         smileyImage.src = "{{url_for('static', filename='smiley-face.png')}}"; // Replace with actual path
         smileyImage.alt = "Smiley";
-
+        const congratulationsMessage = document.createElement("h2");
+        congratulationsMessage.textContent = isMentor ? "Congratulations! another successful student!" :"Congratulations! You did it!";
         // Append the smiley image to the container
         smileyContainer.appendChild(smileyImage);
+        smileyContainer.appendChild(congratulationsMessage);
     }
 
     // Function to hide the smiley image
@@ -75,12 +79,9 @@
         const smileyContainer = document.getElementById("smiley-container");
         smileyContainer.innerHTML = ""; // Clear the container
     }
+
+
 </script>
 <div id="smiley-container"></div>
-<h2>
-    {% if user_role == "mentor" %}
-    Remember when you used to be a student?
-    {%endif%}
-</h2>
 
 {% endblock %}
