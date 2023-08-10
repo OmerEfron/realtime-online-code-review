@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}Code Block{% endblock %}
+{% block title %}{{ code_block.title }}{% endblock %}
 
 {% block socket_script %}
 <script>
     const socket = io();
+    const isMentor = "{{ user_role }}" === "mentor";
 </script>
 {% endblock %}
 
@@ -12,15 +13,9 @@
 <h2>{{ code_block.title }}</h2>
 <textarea id="code_text_area" rows="10" cols="50">{{ code_block.code }}</textarea>
 <script>
-
-    const isMentor = "{{ user_role }}" === "mentor";
-    if(isMentor){
-        console.log("I am mentor");
-    }else{
-        console.log("I am student");
-    }
     const codeBlockId = "{{ code_block.id }}";
     const codeTextArea = document.getElementById("code_text_area");
+    console.log(`about to set codeMirror! readOnly = ${isMentor}`)
     let codeMirror = CodeMirror.fromTextArea(
         codeTextArea, {
             mode: "javascript",
@@ -38,7 +33,18 @@
     if (data.codeBlockId === codeBlockId) {
         const cursorPosition = codeMirror.getCursor();
         programmaticChange = true; // Set flag before changing content
+
+        // Set the value and read-only mode based on data.isFixed
         codeMirror.setValue(data.newCode);
+        if(!isMentor){
+            codeMirror.setOption("readOnly", data.isFixed);
+        }
+        if (data.isFixed) {
+            showSmiley();
+        } else {
+            hideSmiley();
+        }
+
         codeMirror.setCursor(cursorPosition); // Set cursor to end
         codeMirror.focus();
         programmaticChange = false; // Reset flag after the change
@@ -51,5 +57,31 @@
             socket.emit("edit_code", codeBlockId, newCode);
         }
     });
+
+
+    // Function to show the smiley image
+    function showSmiley() {
+        const smileyContainer = document.getElementById("smiley-container");
+
+        // Create and set attributes for the smiley image element
+        const smileyImage = document.createElement("img");
+        smileyImage.src = "{{url_for('static', filename='smiley-face.png')}}"; // Replace with actual path
+        smileyImage.alt = "Smiley";
+        const congratulationsMessage = document.createElement("h2");
+        congratulationsMessage.textContent = isMentor ? "Congratulations! another successful student!" :"Congratulations! You did it!";
+        // Append the smiley image to the container
+        smileyContainer.appendChild(smileyImage);
+        smileyContainer.appendChild(congratulationsMessage);
+    }
+
+    // Function to hide the smiley image
+    function hideSmiley() {
+        const smileyContainer = document.getElementById("smiley-container");
+        smileyContainer.innerHTML = ""; // Clear the container
+    }
+
+
 </script>
+<div id="smiley-container"></div>
+
 {% endblock %}

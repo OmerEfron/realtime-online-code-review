@@ -7,6 +7,7 @@
     padding: 10px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     margin-top: 10px;
+    height: 558px
 }
 
 /* Line numbers style */
@@ -56,9 +57,16 @@
     background-color: #1b1b1b;
     color: #f8f8f8;
 }
+img {
+    width: 202px;
+    height: 210px;
+    overflow-clip-margin: content-box;
+    overflow: clip;
+}
 
-/* Center the h2 element */
-h2 {
-    text-align: center;
-    margin-bottom: 10px;
+#smiley-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto; /* Set a suitable height for the container */
 }

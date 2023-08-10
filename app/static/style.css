@@ -1,3 +1,44 @@
+body {
+  background-color: #be8989;
+  background-image: linear-gradient(20deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5));
+  background-attachment: fixed;
+  background-size: cover;
+  position: relative;
+  overflow: hidden;
+}
+
+.pattern-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('path/to/your-pattern-image.png');
+  opacity: 0.2; /* Adjust the opacity to your liking */
+  pointer-events: none;
+}
+
+h1 {
+  color: white;
+  font-size: 3rem;
+  text-align: center;
+  padding: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+h2 {
+  color: #f0f0f0; /* Light gray text color */
+  font-size: 2.5rem;
+  text-align: center;
+  padding: 1.5rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+a {
+    color: #d20863;
+    text-decoration: none; /* Remove underline from links */
+}
+
 /* Reset default margin and padding */
 * {
     margin: 0;
@@ -5,12 +46,7 @@
     box-sizing: border-box;
 }
 
-/* Set background color and text color */
-body {
-    background-color: #f8f8f8;
-    color: #333;
-    font-family: Arial, sans-serif;
-}
+
 
 /* Center content on the page */
 .container {
@@ -52,16 +88,4 @@ body {
     border: 1px solid #ccc;
 }
 
-/* Style the button */
-.save-button {
-    margin-top: 10px;
-    padding: 8px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
 
-.save-button:hover {
-    background-color: #0056b3;
-}
